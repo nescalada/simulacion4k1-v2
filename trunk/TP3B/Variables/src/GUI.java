@@ -845,9 +845,7 @@ public class GUI extends javax.swing.JFrame {
         Object[] listaObject = pasarALista(cantDeValores, numerosAleatorios);
         jlNumerosAleatoriosGenerados.setListData(listaObject);
 
-        graficarHistograma(calcularHistograma(numerosAleatorios,
-                Integer.parseInt(jcbIntervalosCongruencia.getSelectedItem().toString()),
-                true));
+        graficarHistograma(calcularHistograma(numerosAleatorios,Integer.parseInt(jcbIntervalosPoisson.getSelectedItem().toString()), true));//jcbIntervalosPoisson  --> jcbIntervalosCongruencia
 
     }//GEN-LAST:event_jbSimularPoissonActionPerformed
 
