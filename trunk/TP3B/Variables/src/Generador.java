@@ -58,10 +58,10 @@ public final class Generador {
      * @return  Un numero aleatorio de distribucion de Poisson.
      */
     public static double poisson(double media) {
-        double a = Math.pow(Math.E, -1 / media), b = 1, i = 0;
-        while (b >= a) {
+        double a = Math.pow(Math.E,  -1/media), b = 1, i = -1; //Math.pow(Math.E,  -1 /media)//
+        while (b <= a) {
             i++;
-            b *= Math.random();
+            b = b*Math.random();
         }
         return i;
     }

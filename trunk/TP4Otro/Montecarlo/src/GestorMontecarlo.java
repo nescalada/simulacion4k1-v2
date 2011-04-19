@@ -52,7 +52,7 @@ public class GestorMontecarlo {
             return 2;
         }
         if (rnd < 0.75) {
-            return 2;
+            return 3;
         }
         return 4;
     }
