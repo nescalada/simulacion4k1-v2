@@ -57,19 +57,14 @@ public final class Generador {
      * @param media  La media M(x) que se desea de la distribucion.
      * @return  Un numero aleatorio de distribucion de Poisson.
      */
-    public static double poisson(double media) 
-    {
-      //  System.out.println("entro!!!");
-        double a = 1-(Math.pow(Math.E,  media));
-        double b = 1;//Math.pow(Math.E,  -1 /media)//
+    public static double poisson(double media) {
+        double a = Math.pow(Math.E, -media);
+        double b = 1;
         int i = -1;
-       // System.out.println("1- a = "+a+" b= "+b);
-        while (b < a)
-        {
+        do {
             i++;
-            b = b*Math.random();
-         //   System.out.println(""+i+" a = "+a+" b= "+b);
-        }
+            b = b * Math.random();
+        } while (b > a);
         return i;
     }
 

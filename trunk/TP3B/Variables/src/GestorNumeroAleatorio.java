@@ -7,12 +7,9 @@ public class GestorNumeroAleatorio {
     public double[] poisson(int cantValores, double media) {
 
         double[] result = new double[cantValores];
-        //System.out.println("result = "+result);
         for (int i = 0; i < cantValores; i++) {
             result[i] = Generador.poisson(media);
-          //  System.out.println("result "+i+" = "+result[i]);
         }
-        //System.out.println("result fin= "+result);
         return result;
     }
 
