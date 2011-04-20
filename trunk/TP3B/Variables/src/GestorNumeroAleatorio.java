@@ -22,19 +22,19 @@ public class GestorNumeroAleatorio {
         return result;
     }
 
-    public double[] normalSenoCoseno(int cantValores) {
+    public double[] normalSenoCoseno(int cantValores, double media, double desviacion) {
 
         double[] result = new double[cantValores];
         for (int i = 0; i < cantValores; i++) {
-            result[i] = Generador.normal();
+            result[i] = Generador.normal(media, desviacion);
         }
         return result;
     }
 
-    public double[] normalSumatoria(int cantValores, int cantValoresSumatoria) {
+    public double[] normalSumatoria(int cantValores, double media, double desviacion, int cantValoresSumatoria) {
         double[] result = new double[cantValores];
         for (int i = 0; i < cantValores; i++) {
-            result[i] = Generador.normalSumatoria(cantValoresSumatoria);
+            result[i] = Generador.normalSumatoria(cantValoresSumatoria, media, desviacion);
         }
         return result;
     }
@@ -87,7 +87,7 @@ public class GestorNumeroAleatorio {
 
             valoresDeFrecuencia[0] = (int) calcularMenor(numeros);
             for (int i = 1; i < valoresDeFrecuencia.length; i++) {
-                valoresDeFrecuencia[i] = valoresDeFrecuencia[i - 1]+1;
+                valoresDeFrecuencia[i] = valoresDeFrecuencia[i - 1] + 1;
             }
         } else {
 

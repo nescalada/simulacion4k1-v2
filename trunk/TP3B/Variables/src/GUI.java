@@ -73,6 +73,10 @@ public class GUI extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jcbIntervalosNormal = new javax.swing.JComboBox(modeloIntervalos);
         jbSimularNormal = new javax.swing.JButton();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jtMediaNormal = new javax.swing.JTextField();
+        jtDesviacionNormal = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jrbAditiva = new javax.swing.JRadioButton();
         jTextField1 = new javax.swing.JTextField();
@@ -139,6 +143,7 @@ public class GUI extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Variables aleatorias continuas");
         setResizable(false);
 
         jLabel8.setText("Ingrese la media (M(x)) que tendra la distribución :");
@@ -146,6 +151,9 @@ public class GUI extends javax.swing.JFrame {
         jLabel9.setText("Ingrese la cantidad de numeros aleatorios que desea generar :");
 
         jLabel10.setText("Seleccione la cantidad de intervalos del histograma :");
+        jLabel10.setVisible(false);
+
+        jcbIntervalosPoisson.setVisible(false);
 
         jbSimularPoisson.setText("Simular");
         jbSimularPoisson.addActionListener(new java.awt.event.ActionListener() {
@@ -296,40 +304,56 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel28.setText("Ingrese la Media M(x) de la distribución :");
+
+        jLabel29.setText("Ingrese la Desviacion Dv(x) de la distribución :");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                             .addComponent(jrbSumatoria, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jrbSenoCoseno, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jbSimularNormal)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel13)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jcbIntervalosNormal, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel12)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jtNumAGenerarNormal, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(208, 208, 208))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(183, 183, 183)
                         .addComponent(lCant)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfCantValoresSumatoria, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(tfCantValoresSumatoria, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(249, 249, 249)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel28)
+                            .addComponent(jLabel29))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jtDesviacionNormal)
+                            .addComponent(jtMediaNormal, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE))
+                        .addGap(149, 149, 149))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jtNumAGenerarNormal, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jcbIntervalosNormal, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbSimularNormal)
+                        .addGap(131, 131, 131))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,32 +363,43 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtNumAGenerarNormal)
-                            .addComponent(jLabel12))
-                        .addGap(83, 83, 83)
-                        .addComponent(jbSimularNormal))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jcbIntervalosNormal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13))
-                        .addGap(57, 57, 57))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel7)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jrbSumatoria)
+                        .addComponent(jrbSumatoria))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel28)
+                            .addComponent(jtMediaNormal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtDesviacionNormal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel29))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lCant)
-                            .addComponent(tfCantValoresSumatoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                            .addComponent(tfCantValoresSumatoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jtNumAGenerarNormal)
+                                .addComponent(jLabel12))
+                            .addGap(7, 7, 7)
+                            .addComponent(jbSimularNormal)
+                            .addGap(19, 19, 19))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(49, 49, 49)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jcbIntervalosNormal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel13)))))
+                .addGap(17, 17, 17))
         );
 
         jTabbedPane1.addTab("Distribución Normal", jPanel3);
@@ -461,6 +496,9 @@ public class GUI extends javax.swing.JFrame {
         jLabel14.setText("Ingrese la cantidad de numeros aleatorios que desea generar :");
 
         jLabel22.setText("Seleccione la cantidad de intervalos del histograma :");
+        jLabel22.setVisible(false);
+
+        jcbIntervalosCongruencia.setVisible(false);
 
         jbSimularCongruencia.setText("Simular");
         jbSimularCongruencia.addActionListener(new java.awt.event.ActionListener() {
@@ -731,7 +769,7 @@ public class GUI extends javax.swing.JFrame {
         );
         jfHistogramaLayout.setVerticalGroup(
             jfHistogramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 436, Short.MAX_VALUE)
+            .addGap(0, 444, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Simulacion");
@@ -742,6 +780,11 @@ public class GUI extends javax.swing.JFrame {
         });
 
         jMenuItem1.setText("Salir");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuBar1.add(jMenu1);
@@ -780,6 +823,8 @@ public class GUI extends javax.swing.JFrame {
         jMenuItem5.setText("Uniforme");
         jMenu2.add(jMenuItem5);
 
+        jMenu2.setVisible(false);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -816,7 +861,7 @@ public class GUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel27)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -910,7 +955,10 @@ public class GUI extends javax.swing.JFrame {
 
         if (jrbSenoCoseno.isSelected()) {
 
-            double[] numerosAleatorios = g.normalSenoCoseno(cantDeValores);
+            double[] numerosAleatorios = g.normalSenoCoseno(cantDeValores,
+                    Double.parseDouble(jtMediaNormal.getText()),
+                    Double.parseDouble(jtDesviacionNormal.getText()));
+            
             Object[] listaObject = pasarALista(cantDeValores, numerosAleatorios);
             jlNumerosAleatoriosGenerados.setListData(listaObject);
 
@@ -922,7 +970,12 @@ public class GUI extends javax.swing.JFrame {
         if (jrbSumatoria.isSelected()) {
 
             int cantValoresSumatoria = Integer.parseInt(tfCantValoresSumatoria.getText());
-            double[] numerosAleatorios = g.normalSumatoria(cantDeValores, cantValoresSumatoria);
+
+            double[] numerosAleatorios = g.normalSumatoria(cantDeValores,
+                    Double.parseDouble(jtMediaNormal.getText()),
+                    Double.parseDouble(jtDesviacionNormal.getText()),
+                    cantValoresSumatoria);
+
             Object[] listaObject = pasarALista(cantDeValores, numerosAleatorios);
             jlNumerosAleatoriosGenerados.setListData(listaObject);
 
@@ -1094,9 +1147,13 @@ public class GUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jbSimularUniformeActionPerformed
 
-    private DefaultCategoryDataset calcularHistograma(double[] numerosAleatorios, int cantIntervalos, boolean esContinua) {
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-        double[] valoresDeFrecuencia = g.calcularValoresDeFrecuencia(numerosAleatorios, cantIntervalos, esContinua);
+    private DefaultCategoryDataset calcularHistograma(double[] numerosAleatorios, int cantIntervalos, boolean esDiscreta) {
+
+        double[] valoresDeFrecuencia = g.calcularValoresDeFrecuencia(numerosAleatorios, cantIntervalos, esDiscreta);
         int[] cantidadXintervalo = new int[valoresDeFrecuencia.length - 1];
 
         for (int i = 0; i < cantidadXintervalo.length; i++) {
@@ -1115,7 +1172,7 @@ public class GUI extends javax.swing.JFrame {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
         for (int i = 1; i < valoresDeFrecuencia.length; i++) {
-            if (esContinua) {
+            if (esDiscreta) {
                 dataset.addValue(cantidadXintervalo[i - 1], "Frecuencia", "" + valoresDeFrecuencia[i]);
             } else {
                 dataset.addValue(cantidadXintervalo[i - 1], "Frecuencia", "" + valoresDeFrecuencia[i - 1] + " - " + valoresDeFrecuencia[i]);
@@ -1181,6 +1238,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1235,6 +1294,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton jrbMultiplicativa;
     private javax.swing.JRadioButton jrbSenoCoseno;
     private javax.swing.JRadioButton jrbSumatoria;
+    private javax.swing.JTextField jtDesviacionNormal;
+    private javax.swing.JTextField jtMediaNormal;
     private javax.swing.JTextField jtNumAGenerarCongruencia;
     private javax.swing.JTextField jtNumAGenerarExponencial;
     private javax.swing.JTextField jtNumAGenerarNormal;

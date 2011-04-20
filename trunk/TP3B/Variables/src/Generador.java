@@ -23,12 +23,14 @@ public final class Generador {
      * para calcular un solo numero aleatorio de distribucion Normal.
      * @return  Un solo numero aleatorio de distribucion Normal.
      */
-    public static double normalSumatoria(int cantidadValores) {
+    public static double normalSumatoria(int cantidadValores, double media, double desviacion) {
         double sumatoria = 0, num = 0;
         for (int i = 0; i < cantidadValores; i++) {
-            sumatoria += Math.random() - (cantidadValores / 2);
+            sumatoria += Math.random();///desviacion;
         }
-        return sumatoria / (Math.sqrt(cantidadValores / 12));
+        double z = sumatoria - cantidadValores/2;
+        return z / desviacion;
+//        return ((sumatoria / (Math.sqrt(cantidadValores / 12))) - media) / desviacion;
     }
 
     /**
@@ -40,14 +42,14 @@ public final class Generador {
      *
      * @return  Un numero aleatorio de distribucion Normal.
      */
-    public static double normal() {
+    public static double normal(double media, double desviacion) {
         double r1 = 0, r2 = 0;
         r1 = Math.random();
         r2 = Math.random();
         if (Math.random() < (1 / 2)) {
-            return Math.sqrt((-2) * Math.log(r1)) * Math.sin(2 * Math.PI * r2);
+            return ((Math.sqrt((-2) * Math.log(r1)) * Math.sin(2 * Math.PI * r2)) - media) / desviacion;
         } else {
-            return Math.sqrt((-2) * Math.log(r1)) * Math.cos(2 * Math.PI * r2);
+            return ((Math.sqrt((-2) * Math.log(r1)) * Math.cos(2 * Math.PI * r2)) - media) / desviacion;
         }
     }
 
