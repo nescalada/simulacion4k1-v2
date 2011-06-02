@@ -1,4 +1,3 @@
-
 public class Playa {
 
     private Estacionamiento[] playa;
@@ -37,11 +36,20 @@ public class Playa {
         }
     }
 
-    public void agregarEstacionamiento(Estacionamiento estacionamiento) {
+    public void agregarEstacionamiento(Estacionamiento esta) {
         for (int i = 0; i < playa.length; i++) {
             if (playa[i].estaLibre()) {
-                playa[i] = estacionamiento;
+                playa[i] = esta;
                 return;
+            }
+        }
+    }
+
+    public void eliminarEstacionamiento(Estacionamiento esta) {
+        for (int i = 0; i < playa.length; i++) {
+            Estacionamiento estacionamiento = playa[i];
+            if (estacionamiento.equals(esta)) {
+                estacionamiento = new Estacionamiento();
             }
         }
     }

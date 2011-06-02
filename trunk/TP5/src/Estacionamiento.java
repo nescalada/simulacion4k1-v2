@@ -29,7 +29,8 @@ public class Estacionamiento {
     public void cambiarEstado() {
         if (estado) {
             estado = false;
+        } else {
+            estado = true;
         }
-        estado = true;
     }
 }
