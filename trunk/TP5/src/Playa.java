@@ -47,9 +47,8 @@ public class Playa {
 
     public void eliminarEstacionamiento(Estacionamiento esta) {
         for (int i = 0; i < playa.length; i++) {
-            Estacionamiento estacionamiento = playa[i];
-            if (estacionamiento.equals(esta)) {
-                estacionamiento = new Estacionamiento();
+            if (playa[i].equals(esta)) {
+                playa[i] = new Estacionamiento();
             }
         }
     }

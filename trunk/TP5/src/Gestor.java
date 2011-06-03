@@ -3,21 +3,24 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 public class Gestor {
 
+    private double precioAutoPequeno, precioAutoGrande, precioUtilitario;
     private Playa playa;
-    private LinkedList<Auto> colaParaCobrar;
+    private LinkedList<Evento> colaParaCobrar;
     private LinkedList<Evento> eventos;
-    private double contadorCobro, indice, contadorNombreAuto = 1, reloj = 0;
-    private int numeroEvento = 0;
+    private double contadorCobro, indiceDistribucion, contadorNombreAuto = 1, reloj = 0;
+    private int numeroEvento = 0, indiceParaTabla = 0;
     private String[][] datosParaTabla;
     private String[] columnas = {"Nº", "Evento", "Reloj", "RND Tiempo entre Llegada",
         "Tiempo entre Llegada", "Hora Proxima Llegada", "RND Tipo de Auto", "Tipo de Auto",
-        "RND Tiempo de Estacionamiento", "Tiempo de Estacionamiento",
-        "Hora de salida"};
+        "Estado de Playa", "RND Tiempo de Estacionamiento", "Tiempo de Estacionamiento",
+        "Hora de salida", "Estado Zona de Cobro", "Cola de Cobro",
+        "Cobro", "Contador de Cobros"};
 
     /** Indices de las comlumnas de la tabla
      *
@@ -29,10 +32,15 @@ public class Gestor {
      * 5 - Hora Proxima Llegada
      * 6 - RND Tipo de Auto
      * 7 - Tipo de Auto
-     * 8 - RND Tiempo de Estacionamiento
-     * 9 - Tiempo de estacionamiento
-     * 10 - Hora de salida
+     * 8 - Estado de Playa
+     * 9 - RND Tiempo de Estacionamiento
+     * 10 - Tiempo de estacionamiento
+     * 11 - Hora de salida
      *
+     * 12 - Estado Zona de Cobro
+     * 13 - Cola de Cobro
+     * 14 - Cobro
+     * 15 - Contador de Cobros
      *
      *
      *
@@ -43,25 +51,45 @@ public class Gestor {
         //limpiar();
     }
 
-    public TableModel getProximasMilHoras(double indice, int horasDeSimulacion) {
-        this.indice = indice;
+    public TableModel getProximasMilHoras(double indice, int horasDeSimulacion,
+            double precioAutoPequeno, double precioAutoGrande,
+            double precioUtilitario) {
 
+        this.precioAutoPequeno = precioAutoPequeno;
+        this.precioAutoGrande = precioAutoGrande;
+        this.precioUtilitario = precioUtilitario;
+        this.indiceDistribucion = indice;
         if (numeroEvento == 0) {
             limpiar();
         }
 
-        for (int i = 0; i < horasDeSimulacion; i++) {
+        horasDeSimulacion += reloj;
+        horasDeSimulacion = Math.round(horasDeSimulacion);
+
+        while (reloj < horasDeSimulacion) {
 
             Collections.sort(eventos);
 
             Evento e = eventos.removeFirst();
 
             numeroEvento++;
-            datosParaTabla[numeroEvento][0] = String.valueOf(numeroEvento);
+            indiceParaTabla++;
 
+            //Si aca lanza una excepcion es porque se acabaron las filas de la tabla.
+            try {
+                datosParaTabla[indiceParaTabla][0] = String.valueOf(numeroEvento);
+            } catch (ArrayIndexOutOfBoundsException aIOOBE) {
+                /*
+                 * La solucion es volver a generar la tabla para limpiarla!!!
+                 */
+                datosParaTabla = new String[1000][16];
+                indiceParaTabla = 0;
+                datosParaTabla[indiceParaTabla][0] = String.valueOf(numeroEvento);
+            }
 
-            e.getDescripcion();
-            reloj = e.getHoraEvento();
+            datosParaTabla[indiceParaTabla][1] = e.getDescripcion();
+            reloj = arreglarNumero(e.getHoraEvento());
+            datosParaTabla[indiceParaTabla][2] = String.valueOf(reloj);
 
             switch (e.getIntTipoEvento()) {
 
@@ -70,10 +98,10 @@ public class Gestor {
                     gestionarLlegadaProximoAuto(e);
                     break;
                 case 2:
-                    gestionarFinDeEstacionamiento();
+                    gestionarFinDeEstacionamiento(e);
                     break;
                 case 3:
-                    gestionarFinDeCobro();
+                    gestionarFinDeCobro(e);
                     break;
                 default:
                     JOptionPane.showMessageDialog(null, "Error al obtener evento en el switch");
@@ -102,16 +130,17 @@ public class Gestor {
 
     private void limpiar() {
         numeroEvento = 0;
-
+        indiceParaTabla = 0;
         reloj = 0;
         double rndProximaLlegada = getNumeroAleatorio();
-        double horaproximaLlegada = getTiempoEntreLlegada(indice, rndProximaLlegada);
+        double horaproximaLlegada = getTiempoEntreLlegada(indiceDistribucion, rndProximaLlegada);
 
         playa = new Playa();
         eventos = new LinkedList<Evento>();
+        colaParaCobrar = new LinkedList<Evento>();
         crearEventoProximaLlegada(horaproximaLlegada);
 
-        datosParaTabla = new String[1000][20];
+        datosParaTabla = new String[1000][16];
 
         datosParaTabla[0][0] = "0";
         datosParaTabla[0][1] = "Inicio";
@@ -131,8 +160,8 @@ public class Gestor {
         return eventos.add(new Evento(2, horaFinEstacionamiento, e, null));
     }
 
-    private boolean crearEventoFinCobro(double horaFinCobro, Auto a) {
-        return eventos.add(new Evento(3, horaFinCobro, null, a));
+    private boolean crearEventoFinCobro(double horaDeCobro, Auto a) {
+        return eventos.add(new Evento(3, horaDeCobro, null, a));
     }
 
     private int getProximoEvento() {
@@ -152,43 +181,116 @@ public class Gestor {
         esta.agregarAuto(auto);
 
         double rndTiempoEntreLlegada = getNumeroAleatorio();
-        double tiempoEntreLlegada = getTiempoEntreLlegada(indice, rndTiempoEntreLlegada);
+        double tiempoEntreLlegada = getTiempoEntreLlegada(indiceDistribucion, rndTiempoEntreLlegada);
 
 
-        datosParaTabla[numeroEvento][1] = e.getDescripcion() + auto.getNombre();
-        datosParaTabla[numeroEvento][2] = String.valueOf(reloj);
-        datosParaTabla[numeroEvento][3] = String.valueOf(rndTiempoEntreLlegada);
-        datosParaTabla[numeroEvento][4] = String.valueOf(tiempoEntreLlegada);
-        datosParaTabla[numeroEvento][5] = String.valueOf(arreglarNumero(tiempoEntreLlegada + reloj));
-        datosParaTabla[numeroEvento][6] = String.valueOf(rndTipoDeAuto);
-        datosParaTabla[numeroEvento][7] = String.valueOf(auto.getTipoDeAuto());
+        datosParaTabla[indiceParaTabla][1] = e.getDescripcion() + auto.getNombre();
+//        datosParaTabla[indiceParaTabla][2] = String.valueOf(reloj);
+        datosParaTabla[indiceParaTabla][3] = String.valueOf(rndTiempoEntreLlegada);
+        datosParaTabla[indiceParaTabla][4] = String.valueOf(tiempoEntreLlegada);
+        datosParaTabla[indiceParaTabla][5] = String.valueOf(arreglarNumero(tiempoEntreLlegada + reloj));
+        datosParaTabla[indiceParaTabla][6] = String.valueOf(rndTipoDeAuto);
+        datosParaTabla[indiceParaTabla][7] = String.valueOf(auto.getTipoDeAuto());
 
         //Si hay lugar en la playa
         if (agregarEstacionamiento(esta)) {
             crearEventoFinEstacionamiento(auto.getHoraSalida(), esta);
-
-            datosParaTabla[numeroEvento][8] = String.valueOf(rndTiempoDeEstacionamiento);
-            datosParaTabla[numeroEvento][9] = String.valueOf(auto.getTiempoDeEstacionamiento());
-            datosParaTabla[numeroEvento][10] = String.valueOf(auto.getHoraSalida());
-
-
-
-
+            datosParaTabla[indiceParaTabla][8] = "Libre";
+            datosParaTabla[indiceParaTabla][9] = String.valueOf(rndTiempoDeEstacionamiento);
+            datosParaTabla[indiceParaTabla][10] = String.valueOf(auto.getTiempoDeEstacionamiento());
+            datosParaTabla[indiceParaTabla][11] = String.valueOf(auto.getHoraSalida());
         } //Si no hay lugar en la playa
         else {
-            esta.getAuto().getNombre();
-            esta.getAuto().getHoraEntrada();
+            datosParaTabla[indiceParaTabla][8] = "NO HAY LUGAR";
+        }
+
+        crearEventoProximaLlegada(arreglarNumero(reloj + tiempoEntreLlegada));
+
+        actualizarTabla();
+    }
+
+    private void gestionarFinDeEstacionamiento(Evento e) {
+
+        //Si no hay cola para pagar!!!Si esta libre la zona de cobro
+        if (colaParaCobrar.isEmpty()) {
+
+            datosParaTabla[indiceParaTabla][12] = "Libre";
+            crearEventoFinCobro(reloj + 2, e.getEstacionamiento().getAuto());
+            colaParaCobrar.addLast(e);
+        } //Si la zona de cobro esta ocupada, hay que hacer cola....
+        else {
+            datosParaTabla[indiceParaTabla][12] = "OCUPADA";
+            crearEventoFinCobro(((colaParaCobrar.getLast().getHoraEvento() + 2) + reloj), e.getEstacionamiento().getAuto());
+            colaParaCobrar.addLast(e);
+        }
+
+        playa.eliminarEstacionamiento(e.getEstacionamiento());
+        actualizarTabla();
+//     * 12 - Estado Zona de Cobro
+//     * 13 - Cola de Cobro
+//     * 14 - Cobro
+//     * 15 - Contador de Cobros
+    }
+
+    private void gestionarFinDeCobro(Evento e) {
+
+        Evento t = colaParaCobrar.removeFirst();
+        datosParaTabla[indiceParaTabla][7] = e.getAuto().getTipoDeAuto();
+        /* 1 - Auto Pequeño
+         * 2 - Auto Grande
+         * 3 - Utilitario
+         */
+        switch (e.getAuto().getIntTipoDeAuto()) {
+            case 1:
+                datosParaTabla[indiceParaTabla][14] =
+                        String.valueOf(arreglarNumero(e.getAuto().getTiempoDeEstacionamiento() / 60 * precioAutoPequeno));
+                contadorCobro +=
+                        arreglarNumero(e.getAuto().getTiempoDeEstacionamiento() / 60 * precioAutoPequeno);
+                break;
+            case 2:
+                datosParaTabla[indiceParaTabla][14] =
+                        String.valueOf(arreglarNumero(e.getAuto().getTiempoDeEstacionamiento() / 60 * precioAutoGrande));
+                contadorCobro +=
+                        arreglarNumero(e.getAuto().getTiempoDeEstacionamiento() / 60 * precioAutoGrande);
+                break;
+            case 3:
+                datosParaTabla[indiceParaTabla][14] =
+                        String.valueOf(arreglarNumero(e.getAuto().getTiempoDeEstacionamiento() / 60 * precioUtilitario));
+                contadorCobro +=
+                        arreglarNumero(e.getAuto().getTiempoDeEstacionamiento() / 60 * precioUtilitario);
+                break;
+            default:
+                datosParaTabla[indiceParaTabla][14] = "Error en el switch de gestion fin de cobro";
+        }
+        datosParaTabla[indiceParaTabla][15] = String.valueOf(contadorCobro);
+        datosParaTabla[indiceParaTabla][10] = String.valueOf(e.getAuto().getTiempoDeEstacionamiento());
+        actualizarTabla();
+    }
+
+    private void actualizarTabla() {
+
+        if (playa.estaLibre()) {
+            datosParaTabla[indiceParaTabla][8] = "Libre";
+        } //Si no hay lugar en la playa
+        else {
+            datosParaTabla[indiceParaTabla][8] = "NO HAY LUGAR";
+        }
+
+        //Si no hay cola para pagar!!!Si esta libre la zona de cobro
+        if (colaParaCobrar.isEmpty()) {
+            datosParaTabla[indiceParaTabla][12] = "Libre";
+        } //Si la zona de cobro esta ocupada, hay que hacer cola....
+        else {
+            datosParaTabla[indiceParaTabla][12] = "OCUPADA";
+        }
+
+        if (colaParaCobrar.isEmpty()) {
+            datosParaTabla[indiceParaTabla][13] = "0";
+        } else {
+            datosParaTabla[indiceParaTabla][13] = String.valueOf(colaParaCobrar.size() - 1);
         }
 
 
-
-        crearEventoProximaLlegada(arreglarNumero(reloj + tiempoEntreLlegada));
-    }
-
-    private void gestionarFinDeEstacionamiento() {
-    }
-
-    private void gestionarFinDeCobro() {
     }
 
     private double getNumeroAleatorio() {
@@ -205,5 +307,10 @@ public class Gestor {
         numero = Math.round(numero);
         numero /= 100;
         return numero;
+    }
+
+    public TableModel reiniciar() {
+        numeroEvento = 0;
+        return new DefaultTableModel(new Object[1][16], columnas);
     }
 }

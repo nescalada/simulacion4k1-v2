@@ -52,4 +52,12 @@ public class Evento implements Comparable<Evento> {
         }
         return 1;
     }
+
+    public Auto getAuto() {
+        return auto;
+    }
+
+    public Estacionamiento getEstacionamiento() {
+        return estacionamiento;
+    }
 }

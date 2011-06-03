@@ -56,6 +56,10 @@ public class Auto {
         return tiempoDeEstacionamiento;
     }
 
+    public int getIntTipoDeAuto() {
+        return intTipoDeAuto;
+    }
+
     public String getTipoDeAuto() {
         return tipoDeAuto;
     }
