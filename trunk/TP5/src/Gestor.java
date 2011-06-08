@@ -132,6 +132,8 @@ public class Gestor {
         numeroEvento = 0;
         indiceParaTabla = 0;
         reloj = 0;
+        contadorCobro = 0;
+        contadorNombreAuto = 0;
         double rndProximaLlegada = getNumeroAleatorio();
         double horaproximaLlegada = getTiempoEntreLlegada(indiceDistribucion, rndProximaLlegada);
 
@@ -146,7 +148,7 @@ public class Gestor {
         datosParaTabla[0][1] = "Inicio";
         datosParaTabla[0][2] = "0";
         datosParaTabla[0][3] = String.valueOf(rndProximaLlegada);
-        datosParaTabla[0][4] = String.valueOf(rndProximaLlegada);
+        datosParaTabla[0][4] = String.valueOf(horaproximaLlegada);
         datosParaTabla[0][5] = String.valueOf(horaproximaLlegada);
 
 
@@ -161,7 +163,9 @@ public class Gestor {
     }
 
     private boolean crearEventoFinCobro(double horaDeCobro, Auto a) {
-        return eventos.add(new Evento(3, horaDeCobro, null, a));
+        Evento ev = new Evento(3, horaDeCobro, null, a);
+        colaParaCobrar.addLast(ev);
+        return eventos.add(ev);
     }
 
     private int getProximoEvento() {
@@ -216,12 +220,12 @@ public class Gestor {
 
             datosParaTabla[indiceParaTabla][12] = "Libre";
             crearEventoFinCobro(reloj + 2, e.getEstacionamiento().getAuto());
-            colaParaCobrar.addLast(e);
+            //colaParaCobrar.addLast(e);
         } //Si la zona de cobro esta ocupada, hay que hacer cola....
         else {
             datosParaTabla[indiceParaTabla][12] = "OCUPADA";
-            crearEventoFinCobro(((colaParaCobrar.getLast().getHoraEvento() + 2) + reloj), e.getEstacionamiento().getAuto());
-            colaParaCobrar.addLast(e);
+            crearEventoFinCobro(colaParaCobrar.getLast().getHoraEvento() + 2, e.getEstacionamiento().getAuto());
+            //colaParaCobrar.addLast(e);
         }
 
         playa.eliminarEstacionamiento(e.getEstacionamiento());
@@ -312,5 +316,34 @@ public class Gestor {
     public TableModel reiniciar() {
         numeroEvento = 0;
         return new DefaultTableModel(new Object[1][16], columnas);
+    }
+
+    public TableModel getTablaDePlaya() {
+        return playa.getTableModel();
+    }
+
+    TableModel getTablaZonaDeCobro() {
+        String[] col = {"Auto", "Tipo de Auto", "Tiempo de Estacionamiento",
+            "Hora Fin De Cobro"};
+        String[][] dat = new String[20][4];
+        int i = -1;
+
+        for (Evento evento : colaParaCobrar) {
+            i++;
+            dat[i][0] = evento.getAuto().getNombre();
+            dat[i][1] = String.valueOf(evento.getAuto().getIntTipoDeAuto());
+            dat[i][2] = String.valueOf(evento.getAuto().getTiempoDeEstacionamiento());
+            dat[i][3] = String.valueOf(evento.getHoraEvento());
+        }
+        return new DefaultTableModel(dat, col);
+    }
+
+    public double getProximaLlegada() {
+        for (Evento eve : eventos) {
+            if (eve.getIntTipoEvento() == 1) {
+                return eve.getHoraEvento();
+            }
+        }
+        return 0;
     }
 }

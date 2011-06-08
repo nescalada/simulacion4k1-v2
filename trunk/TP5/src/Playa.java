@@ -1,3 +1,7 @@
+
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 public class Playa {
 
     private Estacionamiento[] playa;
@@ -27,6 +31,10 @@ public class Playa {
         return estado;
     }
 
+    public int tamañoPlaya() {
+        return playa.length;
+    }
+
     public void agregarAuto(Auto auto) {
         for (int i = 0; i < playa.length; i++) {
             if (playa[i].estaLibre()) {
@@ -51,5 +59,28 @@ public class Playa {
                 playa[i] = new Estacionamiento();
             }
         }
+    }
+
+    public TableModel getTableModel() {
+        String[] Columnas = {"Estacionamiento", "Auto", "Tipo De Auto",
+            "Tiempo de Estacioamiento", "Hora De Salida"};
+        String[][] datos = new String[20][5];
+
+        for (int i = 0; i < playa.length; i++) {
+            Estacionamiento esta = playa[i];
+            datos[i][0] = String.valueOf(i + 1);
+            if (esta.getAuto() != null) {
+                datos[i][1] = esta.getAuto().getNombre();
+                datos[i][2] = String.valueOf(esta.getAuto().getTipoDeAuto());
+                datos[i][3] = String.valueOf(esta.getAuto().getTiempoDeEstacionamiento());
+                datos[i][4] = String.valueOf(esta.getAuto().getHoraSalida());
+            } else {
+                datos[i][1] = "";
+                datos[i][2] = "";
+                datos[i][3] = "";
+                datos[i][4] = "";
+            }
+        }
+        return new DefaultTableModel(datos, Columnas);
     }
 }
