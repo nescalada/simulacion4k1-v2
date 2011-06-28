@@ -1,4 +1,5 @@
 
+import java.util.EventObject;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
@@ -378,7 +379,7 @@ public class Gui extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             TableModel tm = g.getProximasMilHoras(Double.parseDouble(tfIndice.getText()),
-                    Integer.parseInt(jtCantidadDeHorasDeSimulacion.getText()),
+                    Double.parseDouble(jtCantidadDeHorasDeSimulacion.getText()),
                     Double.parseDouble(jtPrecioAutoPequeño.getText()),
                     Double.parseDouble(jtPrecioAutoGrande.getText()),
                     Double.parseDouble(jtPrecioAutoUtilitario.getText()));
@@ -393,8 +394,11 @@ public class Gui extends javax.swing.JFrame {
 
 
         jlHoraProximaLlegada.setText(String.valueOf(g.getProximaLlegada()));
+        TableModel tm = g.getTablaDePlaya();
         jTablePlaya.setModel(g.getTablaDePlaya());
         jTableZonaDeCobro.setModel(g.getTablaZonaDeCobro());
+
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -62,25 +62,25 @@ public class Playa {
     }
 
     public TableModel getTableModel() {
-        String[] Columnas = {"Estacionamiento", "Auto", "Tipo De Auto",
+        String[] col = {"Estacionamiento", "Auto", "Tipo De Auto",
             "Tiempo de Estacioamiento", "Hora De Salida"};
-        String[][] datos = new String[20][5];
+        String[][] dat = new String[20][5];
 
         for (int i = 0; i < playa.length; i++) {
             Estacionamiento esta = playa[i];
-            datos[i][0] = String.valueOf(i + 1);
+            dat[i][0] = String.valueOf(i + 1);
             if (esta.getAuto() != null) {
-                datos[i][1] = esta.getAuto().getNombre();
-                datos[i][2] = String.valueOf(esta.getAuto().getTipoDeAuto());
-                datos[i][3] = String.valueOf(esta.getAuto().getTiempoDeEstacionamiento());
-                datos[i][4] = String.valueOf(esta.getAuto().getHoraSalida());
+                dat[i][1] = esta.getAuto().getNombre();
+                dat[i][2] = String.valueOf(esta.getAuto().getTipoDeAuto());
+                dat[i][3] = String.valueOf(esta.getAuto().getTiempoDeEstacionamiento());
+                dat[i][4] = String.valueOf(esta.getAuto().getHoraSalida());
             } else {
-                datos[i][1] = "";
-                datos[i][2] = "";
-                datos[i][3] = "";
-                datos[i][4] = "";
+                dat[i][1] = "";
+                dat[i][2] = "";
+                dat[i][3] = "";
+                dat[i][4] = "";
             }
         }
-        return new DefaultTableModel(datos, Columnas);
+        return new DefaultTableModel(dat, col);
     }
 }
