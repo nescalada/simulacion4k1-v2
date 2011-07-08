@@ -1,0 +1,2 @@
+Ejecutar siempre desde el cd.
+El Trabajo Práctico Nº 1, ejecutar esde el archivo *.bat.

@@ -1,0 +1,1 @@
+java -jar "TP1.jar"
